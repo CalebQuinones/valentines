@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Day Planner 💕</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <body>
+    <div class="celebration" id="celebration"></div>
+
+    <div class="container">
+        <!-- Section 1: Initial Question -->
+        <div class="section active" id="section1">
+            <div class="card">
+                <h1 class="title">Will You Be My <span style="color: var(--primary-pink);">Valentine?</span></h1>
+                <p class="subtitle">💕 A Special Moment 💕</p>
+                
+                <div class="button-group">
+                    <button class="btn btn-yes" id="yesBtn">Yes</button>
+                    <button class="btn btn-no" id="noBtn">No</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2: Date Selection -->
+        <div class="section" id="section2">
+            <div class="card">
+                <h2 class="title">When Are You <span style="color: var(--primary-pink);">Available?</span></h2>
+                <p class="subtitle">Pick A Day In February</p>
+
+                <div class="input-group">
+                    <label class="input-label">Select Date</label>
+                    <input type="date" id="dateInput" min="2025-02-01" max="2025-02-28">
+                    <div class="unavailable-message" id="unavailableMsg">
+                        ❌ February 14 is reserved for all Valentine's! Pick another day! 💕
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label class="input-label">What Time?</label>
+                    <input type="time" id="timeInput">
+                </div>
+
+                <button class="btn-next" id="nextBtn1">Next Step ➜</button>
+                <button class="btn-back" id="backBtn1">← Go Back</button>
+            </div>
+        </div>
+
+        <!-- Section 3: Food Selection -->
+        <div class="section" id="section3">
+            <div class="card">
+                <h2 class="title">What Should We <span style="color: var(--primary-pink);">Eat?</span></h2>
+                <p class="subtitle">Pick Your Favorite</p>
+
+                <div class="option-grid">
+                    <button class="btn-option" data-food="Takoyaki 🍙">Takoyaki 🍙</button>
+                    <button class="btn-option" data-food="Ramen 🍜">Ramen 🍜</button>
+                    <button class="btn-option" data-food="Steak 🥩">Steak 🥩</button>
+                    <button class="btn-option" data-food="Fries 🍟">Fries 🍟</button>
+                    <button class="btn-option" data-food="Fried Chicken 🍗">Fried Chicken 🍗</button>
+                </div>
+
+                <button class="btn-next" id="nextBtn2">Next Step ➜</button>
+                <button class="btn-back" id="backBtn2">← Go Back</button>
+            </div>
+        </div>
+
+        <!-- Section 4: Date Type Selection -->
+        <div class="section" id="section4">
+            <div class="card">
+                <h2 class="title">What Type Of <span style="color: var(--primary-pink);">Date?</span></h2>
+                <p class="subtitle">Choose Your Adventure</p>
+
+                <div class="option-grid full">
+                    <button class="btn-option" data-datetype="Shopping 🛍️">Shopping 🛍️</button>
+                    <button class="btn-option" data-datetype="Arcade Date 🎮">Arcade Date 🎮</button>
+                    <button class="btn-option" data-datetype="Picnic Date 🧺">Picnic Date 🧺</button>
+                    <button class="btn-option" data-datetype="Visit Museum 🎨">Visit Museum 🎨</button>
+                    <button class="btn-option" data-datetype="Coffee Date ☕">Coffee Date ☕</button>
+                    <button class="btn-option" data-datetype="Movie Marathon 🎬">Movie Marathon 🎬</button>
+                </div>
+
+                <button class="btn-next" id="nextBtn3">Next Step ➜</button>
+                <button class="btn-back" id="backBtn3">← Go Back</button>
+            </div>
+        </div>
+
+        <!-- Section 5: Special Requests -->
+        <div class="section" id="section5">
+            <div class="card">
+                <h2 class="title">Any Special <span style="color: var(--primary-pink);">Requests?</span></h2>
+                <p class="subtitle">Add Some Extra Magic</p>
+
+                <div class="option-grid full">
+                    <button class="btn-option" data-request="Massage 💆">Massage 💆</button>
+                    <button class="btn-option" data-request="Shopping Spree 💳">Shopping Spree 💳</button>
+                    <button class="btn-option" data-request="Lots of Kisses 💋">Lots of Kisses 💋</button>
+                    <button class="btn-option" data-request="Lots of Hugs 🤗">Lots of Hugs 🤗</button>
+                    <button class="btn-option" data-request="Surprise Gifts 🎁">Surprise Gifts 🎁</button>
+                </div>
+
+                <button class="btn-next" id="nextBtn4">View My Agenda ➜</button>
+                <button class="btn-back" id="backBtn4">← Go Back</button>
+            </div>
+        </div>
+
+        <!-- Section 6: Final Agenda -->
+        <div class="section" id="section6">
+            <div class="card">
+                <h1 class="title">Your Perfect <span style="color: var(--primary-pink);">Valentine's Day</span></h1>
+                <p class="subtitle">💕 Our Romantic Agenda 💕</p>
+
+                <div class="agenda-box">
+                    <div class="agenda-title">📅 Your Custom Plan</div>
+                    <div class="agenda-item">
+                        <span class="agenda-label">📍 Date:</span>
+                        <span class="agenda-content" id="agendaDate">-</span>
+                    </div>
+                    <div class="agenda-item">
+                        <span class="agenda-label">⏰ Time:</span>
+                        <span class="agenda-content" id="agendaTime">-</span>
+                    </div>
+                    <div class="agenda-item">
+                        <span class="agenda-label">🍽️ Food:</span>
+                        <span class="agenda-content" id="agendaFood">-</span>
+                    </div>
+                    <div class="agenda-item">
+                        <span class="agenda-label">🎭 Activity:</span>
+                        <span class="agenda-content" id="agendaActivity">-</span>
+                    </div>
+                    <div class="agenda-item">
+                        <span class="agenda-label">💝 Special Requests:</span>
+                        <span class="agenda-content" id="agendaRequest">-</span>
+                    </div>
+                </div>
+
+                <p style="font-size: 1.2rem; color: var(--dark-pink); font-weight: 700; margin-top: 25px; margin-bottom: 20px;">
+                    💕 Can't wait to spend this special day with you! 💕
+                </p>
+
+                <button class="btn-back" id="backBtn5">← Start Over</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
