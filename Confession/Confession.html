@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Day Planner 💕</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-pink: #FF6B9D;
+            --dark-pink: #D81159;
+            --light-pink: #FFC0D9;
+            --cream: #FFF5F7;
+            --charcoal: #2C2C2C;
+            --accent-orange: #FF8C42;
+            --shadow-sm: 0 4px 15px rgba(216, 17, 89, 0.1);
+            --shadow-md: 0 8px 30px rgba(216, 17, 89, 0.15);
+            --shadow-lg: 0 16px 50px rgba(216, 17, 89, 0.25);
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background: linear-gradient(135deg, #FFF5F7 0%, #FFE5F0 50%, #FFC0D9 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* Floating hearts background */
+        body::before {
+            content: '❤️ 💕 💖 💗';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            font-size: 80px;
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 0;
+            animation: float 15s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(10deg); }
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            position: relative;
+            z-index: 10;
+        }
+
+        .section {
+            display: none;
+            animation: fadeInScale 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .card {
+            background: white;
+            border-radius: 28px;
+            padding: 50px 40px;
+            box-shadow: var(--shadow-lg);
+            border: 3px solid var(--light-pink);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200px;
+            height: 400px;
+            background: radial-gradient(circle, var(--light-pink) 0%, transparent 70%);
+            border-radius: 50%;
+            opacity: 0.1;
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.1; }
+            50% { transform: scale(1.2); opacity: 0.15; }
+        }
+
+        .title {
+            font-size: clamp(2rem, 8vw, 3.5rem);
+            color: var(--dark-pink);
+            margin-bottom: 15px;
+            font-weight: 700;
+            letter-spacing: -1px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--primary-pink);
+            margin-bottom: 40px;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+
+        .question-text {
+            font-size: 1.25rem;
+            color: var(--charcoal);
+            margin-bottom: 30px;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn {
+            padding: 16px 36px;
+            font-size: 1rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            font-family: 'Fredoka', sans-serif;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.3);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .btn:hover::before {
+            opacity: 1;
+        }
+
+        .btn-yes {
+            background: linear-gradient(135deg, var(--primary-pink) 0%, var(--dark-pink) 100%);
+            color: white;
+            min-width: 140px;
+        }
+
+        .btn-yes:hover {
+            transform: translateY(-6px) scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-yes:active {
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .btn-no {
+            background: white;
+            color: var(--charcoal);
+            border: 3px solid var(--primary-pink);
+            min-width: 140px;
+            font-weight: 600;
+        }
+
+        .btn-no:hover {
+            background: var(--primary-pink);
+            color: white;
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-no:active {
+            transform: translateY(-2px);
+        }
+
+        .btn-option {
+            background: linear-gradient(135deg, var(--light-pink) 0%, var(--primary-pink) 100%);
+            color: white;
+            padding: 18px 28px;
+            font-size: 0.95rem;
+            flex: 1;
+            min-width: 150px;
+            border: 3px solid transparent;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .btn-option:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-option.selected {
+            background: var(--dark-pink);
+            border-color: var(--charcoal);
+            transform: scale(1.08);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .option-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .option-grid.full {
+            grid-template-columns: 1fr;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .input-label {
+            display: block;
+            font-size: 0.95rem;
+            color: var(--dark-pink);
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .input-wrapper {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        input[type="date"],
+        input[type="time"],
+        select {
+            padding: 14px 16px;
+            border: 3px solid var(--primary-pink);
+            border-radius: 16px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1rem;
+            color: var(--charcoal);
+            background: white;
+            font-weight: 600;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        input[type="date"]:focus,
+        input[type="time"]:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--dark-pink);
+            box-shadow: 0 0 0 4px rgba(216, 17, 89, 0.1);
+        }
+
+        .btn-next {
+            background: linear-gradient(135deg, var(--primary-pink) 0%, var(--dark-pink) 100%);
+            color: white;
+            padding: 18px 48px;
+            font-size: 1.05rem;
+            width: 100%;
+            margin-top: 20px;
+            text-transform: uppercase;
+            font-weight: 700;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: var(--shadow-md);
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-next:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-next:active {
+            transform: translateY(-2px);
+        }
+
+        .btn-back {
+            background: white;
+            color: var(--charcoal);
+            border: 3px solid var(--primary-pink);
+            padding: 14px 32px;
+            font-size: 0.95rem;
+            margin-top: 15px;
+            width: 100%;
+            cursor: pointer;
+            border-radius: 50px;
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-back:hover {
+            background: var(--primary-pink);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* Agenda styles */
+        .agenda-box {
+            background: linear-gradient(135deg, var(--light-pink) 0%, var(--cream) 100%);
+            border: 3px solid var(--primary-pink);
+            border-radius: 24px;
+            padding: 35px;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 1;
+            text-align: left;
+        }
+
+        .agenda-title {
+            font-size: 1.4rem;
+            color: var(--dark-pink);
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .agenda-item {
+            font-size: 1rem;
+            color: var(--charcoal);
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--light-pink);
+            font-weight: 600;
+        }
+
+        .agenda-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .agenda-label {
+            color: var(--primary-pink);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .agenda-content {
+            color: var(--charcoal);
+            font-weight: 600;
+            font-size: 1.05rem;
+        }
+
+        .btn-no.evade {
+            animation: evadeClick 0.5s cubic-bezier(0.36, 0, 0.66, -0.56);
+        }
+
+        @keyframes evadeClick {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(60px, -60px) rotate(12deg); }
+            50% { transform: translate(-60px, 60px) rotate(-12deg); }
+            75% { transform: translate(60px, 60px) rotate(12deg); }
+            100% { transform: translate(0, 0) rotate(0deg); }
+        }
+
+        /* Celebration animation */
+        .celebration {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--primary-pink);
+            border-radius: 50%;
+            animation: confettiFall 3s ease-in-out forwards;
+        }
+
+        @keyframes confettiFall {
+            to {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Date unavailable message */
+        .unavailable-message {
+            background: var(--light-pink);
+            color: var(--dark-pink);
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-top: 10px;
+            position: relative;
+            z-index: 1;
+            display: none;
+        }
+
+        .unavailable-message.show {
+            display: block;
+            animation: shake 0.4s cubic-bezier(0.36, 0, 0.66, -0.56);
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                padding: 35px 25px;
+                border-radius: 20px;
+            }
+
+            .title {
+                font-size: 2rem;
+            }
+
+            .question-text {
+                font-size: 1.1rem;
+            }
+
+            .option-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .button-group {
+                gap: 12px;
+            }
+
+            .btn {
+                padding: 14px 24px;
+                font-size: 0.9rem;
+            }
+
+            input[type="date"],
+            input[type="time"],
+            select {
+                min-width: 100%;
+            }
+
+            .agenda-box {
+                padding: 25px;
+            }
+
+            .agenda-title {
+                font-size: 1.2rem;
+            }
+
+            .agenda-item {
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="celebration" id="celebration"></div>
+
+    <div class="container">
+        <!-- Section 1: Initial Question -->
+        <div class="section active" id="section1">
+            <div class="card">
+                <h1 class="title">Will You Be My <span style="color: var(--primary-pink);">Valentine?</span></h1>
+                <p class="subtitle">💕 A Special Moment 💕</p>
+                
+                <div class="button-group">
+                    <button class="btn btn-yes" id="yesBtn">Yes</button>
+                    <button class="btn btn-no" id="noBtn">No</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2: Date Selection -->
+        <div class="section" id="section2">
+            <div class="card">
+                <h2 class="title">When Are You <span style="color: var(--primary-pink);">Available?</span></h2>
+                <p class="subtitle">Pick A Day In February</p>
+
+                <div class="input-group">
+                    <label class="input-label">Select Date</label>
+                    <input type="date" id="dateInput" min="2025-02-01" max="2025-02-28">
+                    <div class="unavailable-message" id="unavailableMsg">
+                        ❌ February 14 is reserved for all Valentine's! Pick another day! 💕
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label class="input-label">What Time?</label>
+                    <input type="time" id="timeInput">
+                </div>
+
+                <button class="btn-next" id="nextBtn1">Next Step ➜</button>
+                <button class="btn-back" id="backBtn1">← Go Back</button>
+            </div>
+        </div>
+
+        <!-- Section 3: Food Selection -->
+        <div class="section" id="section3">
+            <div class="card">
+                <h2 class="title">What Should We <span style="color: var(--primary-pink);">Eat?</span></h2>
+                <p class="subtitle">Pick Your Favorite</p>
+
+                <div class="option-grid">
+                    <button class="btn-option" data-food="Takoyaki 🍙">Takoyaki 🍙</button>
+                    <button class="btn-option" data-food="Ramen 🍜">Ramen 🍜</button>
+                    <button class="btn-option" data-food="Steak 🥩">Steak 🥩</button>
+                    <button class="btn-option" data-food="Fries 🍟">Fries 🍟</button>
+                    <button class="btn-option" data-food="Fried Chicken 🍗">Fried Chicken 🍗</button>
+                </div>
+
+                <button class="btn-next" id="nextBtn2">Next Step ➜</button>
+                <button class="btn-back" id="backBtn2">← Go Back</button>
+            </div>
+        </div>
+
+        <!-- Section 4: Date Type Selection -->
+        <div class="section" id="section4">
+            <div class="card">
+                <h2 class="title">What Type Of <span style="color: var(--primary-pink);">Date?</span></h2>
+                <p class="subtitle">Choose Your Adventure</p>
+
+                <div class="option-grid full">
+                    <button class="btn-option" data-datetype="Shopping 🛍️">Shopping 🛍️</button>
+                    <button class="btn-option" data-datetype="Arcade Date 🎮">Arcade Date 🎮</button>
+                    <button class="btn-option" data-datetype="Picnic Date 🧺">Picnic Date 🧺</button>
+                    <button class="btn-option" data-datetype="Visit Museum 🎨">Visit Museum 🎨</button>
+                    <button class="btn-option" data-datetype="Coffee Date ☕">Coffee Date ☕</button>
+                    <button class="btn-option" data-datetype="Movie Marathon 🎬">Movie Marathon 🎬</button>
+                </div>
+
+                <button class="btn-next" id="nextBtn3">Next Step ➜</button>
+                <button class="btn-back" id="backBtn3">← Go Back</button>
+            </div>
+        </div>
+
+        <!-- Section 5: Special Requests -->
+        <div class="section" id="section5">
+            <div class="card">
+                <h2 class="title">Any Special <span style="color: var(--primary-pink);">Requests?</span></h2>
+                <p class="subtitle">Add Some Extra Magic</p>
+
+                <div class="option-grid full">
+                    <button class="btn-option" data-request="Massage 💆">Massage 💆</button>
+                    <button class="btn-option" data-request="Shopping Spree 💳">Shopping Spree 💳</button>
+                    <button class="btn-option" data-request="Lots of Kisses 💋">Lots of Kisses 💋</button>
+                    <button class="btn-option" data-request="Lots of Hugs 🤗">Lots of Hugs 🤗</button>
+                    <button class="btn-option" data-request="Surprise Gifts 🎁">Surprise Gifts 🎁</button>
+                </div>
+
+                <button class="btn-next" id="nextBtn4">View My Agenda ➜</button>
+                <button class="btn-back" id="backBtn4">← Go Back</button>
+            </div>
+        </div>
+
+        <!-- Section 6: Final Agenda -->
+        <div class="section" id="section6">
+            <div class="card">
+                <h1 class="title">Your Perfect <span style="color: var(--primary-pink);">Valentine's Day</span></h1>
+                <p class="subtitle">💕 Our Romantic Agenda 💕</p>
+
+                <div class="agenda-box">
+                    <div class="agenda-title">📅 Your Custom Plan</div>
+                    <div class="agenda-item">
+                        <span class="agenda-label">📍 Date:</span>
+                        <span class="agenda-content" id="agendaDate">-</span>
+                    </div>
+                    <div class="agenda-item">
+                        <span class="agenda-label">⏰ Time:</span>
+                        <span class="agenda-content" id="agendaTime">-</span>
+                    </div>
+                    <div class="agenda-item">
+                        <span class="agenda-label">🍽️ Food:</span>
+                        <span class="agenda-content" id="agendaFood">-</span>
+                    </div>
+                    <div class="agenda-item">
+                        <span class="agenda-label">🎭 Activity:</span>
+                        <span class="agenda-content" id="agendaActivity">-</span>
+                    </div>
+                    <div class="agenda-item">
+                        <span class="agenda-label">💝 Special Requests:</span>
+                        <span class="agenda-content" id="agendaRequest">-</span>
+                    </div>
+                </div>
+
+                <p style="font-size: 1.2rem; color: var(--dark-pink); font-weight: 700; margin-top: 25px; margin-bottom: 20px;">
+                    💕 Can't wait to spend this special day with you! 💕
+                </p>
+
+                <button class="btn-back" id="backBtn5">← Start Over</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // State management
+        const state = {
+            date: '',
+            time: '',
+            food: '',
+            dateType: '',
+            request: ''
+        };
+
+        const noPhrases = [
+            'No',
+            'Please, Rethink Your Decision 🥺',
+            'I\'m Going To Die 😭',
+            'Are You Sure?? 😢',
+            'I\'ll Give You Snacks If You Click Yes! 🍩'
+        ];
+
+        let noPressCount = 0;
+        let selectedFood = null;
+        let selectedDateType = null;
+        let selectedRequest = null;
+
+        // Button references
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const dateInput = document.getElementById('dateInput');
+        const timeInput = document.getElementById('timeInput');
+        const unavailableMsg = document.getElementById('unavailableMsg');
+        const nextBtns = [
+            document.getElementById('nextBtn1'),
+            document.getElementById('nextBtn2'),
+            document.getElementById('nextBtn3'),
+            document.getElementById('nextBtn4')
+        ];
+        const backBtns = [
+            document.getElementById('backBtn1'),
+            document.getElementById('backBtn2'),
+            document.getElementById('backBtn3'),
+            document.getElementById('backBtn4'),
+            document.getElementById('backBtn5')
+        ];
+
+        // Section references
+        const sections = Array.from(document.querySelectorAll('.section'));
+        let currentSection = 0;
+
+        // Helper functions
+        function showSection(index) {
+            sections.forEach(s => s.classList.remove('active'));
+            if (sections[index]) {
+                sections[index].classList.add('active');
+                currentSection = index;
+                window.scrollTo(0, 0);
+            }
+        }
+
+        function showNextSection() {
+            showSection(currentSection + 1);
+        }
+
+        function showPrevSection() {
+            showSection(currentSection - 1);
+        }
+
+        // Celebrate animation
+        function celebrate() {
+            const celebration = document.getElementById('celebration');
+            for (let i = 0; i < 30; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.top = -10 + 'px';
+                confetti.style.background = [
+                    'var(--primary-pink)',
+                    'var(--dark-pink)',
+                    'var(--light-pink)',
+                    'var(--accent-orange)'
+                ][Math.floor(Math.random() * 4)];
+                celebration.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 3000);
+            }
+        }
+
+        // Yes button
+        yesBtn.addEventListener('click', () => {
+            celebrate();
+            setTimeout(() => {
+                showNextSection();
+            }, 300);
+        });
+
+        // No button
+        noBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            noBtn.classList.add('evade');
+
+            // Change text
+            if (noPressCount < noPhrases.length) {
+                noBtn.textContent = noPhrases[noPressCount];
+            }
+            noPressCount++;
+
+            // Increase yes button
+            const currentSize = parseFloat(yesBtn.style.fontSize) || 16;
+            yesBtn.style.fontSize = (currentSize + 8) + 'px';
+            yesBtn.style.padding = (18 + noPressCount * 8) + 'px ' + (64 + noPressCount * 12) + 'px';
+
+            // Evade animation
+            const randomX = (Math.random() - 0.5) * 300;
+            const randomY = (Math.random() - 0.5) * 300;
+
+            noBtn.style.position = 'relative';
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+
+            setTimeout(() => {
+                noBtn.classList.remove('evade');
+            }, 500);
+        });
+
+        // Date input validation
+        dateInput.addEventListener('change', () => {
+            const date = new Date(dateInput.value);
+            if (dateInput.value) {
+                const day = date.getDate();
+                if (day === 14) {
+                    unavailableMsg.classList.add('show');
+                    state.date = '';
+                    dateInput.value = '';
+                } else {
+                    unavailableMsg.classList.remove('show');
+                    state.date = dateInput.value;
+                }
+            }
+        });
+
+        // Time input
+        timeInput.addEventListener('change', () => {
+            state.time = timeInput.value;
+        });
+
+        // Food selection
+        document.querySelectorAll('[data-food]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('[data-food]').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                state.food = btn.dataset.food;
+                selectedFood = btn.dataset.food;
+            });
+        });
+
+        // Date type selection
+        document.querySelectorAll('[data-datetype]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('[data-datetype]').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                state.dateType = btn.dataset.datetype;
+                selectedDateType = btn.dataset.datetype;
+            });
+        });
+
+        // Request selection
+        document.querySelectorAll('[data-request]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('[data-request]').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                state.request = btn.dataset.request;
+                selectedRequest = btn.dataset.request;
+            });
+        });
+
+        // Next buttons
+        nextBtns[0].addEventListener('click', () => {
+            if (state.date && state.time) {
+                showNextSection();
+            } else {
+                alert('Please select both date and time!');
+            }
+        });
+
+        nextBtns[1].addEventListener('click', () => {
+            if (state.food) {
+                showNextSection();
+            } else {
+                alert('Please select a food option!');
+            }
+        });
+
+        nextBtns[2].addEventListener('click', () => {
+            if (state.dateType) {
+                showNextSection();
+            } else {
+                alert('Please select a date type!');
+            }
+        });
+
+        nextBtns[3].addEventListener('click', () => {
+            showNextSection();
+            displayAgenda();
+            celebrate();
+        });
+
+        // Back buttons
+        backBtns[0].addEventListener('click', showPrevSection);
+        backBtns[1].addEventListener('click', showPrevSection);
+        backBtns[2].addEventListener('click', showPrevSection);
+        backBtns[3].addEventListener('click', showPrevSection);
+        backBtns[4].addEventListener('click', () => {
+            state.date = '';
+            state.time = '';
+            state.food = '';
+            state.dateType = '';
+            state.request = '';
+            noPressCount = 0;
+            noBtn.textContent = 'No';
+            yesBtn.style.fontSize = '16px';
+            yesBtn.style.padding = '16px 36px';
+            dateInput.value = '';
+            timeInput.value = '';
+            selectedFood = null;
+            selectedDateType = null;
+            selectedRequest = null;
+            document.querySelectorAll('[data-food], [data-datetype], [data-request]').forEach(b => {
+                b.classList.remove('selected');
+            });
+            showSection(0);
+        });
+
+        // Display agenda
+        function displayAgenda() {
+            const dateObj = new Date(state.date);
+            const formattedDate = dateObj.toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+
+            const time24 = state.time;
+            const [hours, minutes] = time24.split(':');
+            let hours12 = parseInt(hours);
+            const ampm = hours12 >= 12 ? 'PM' : 'AM';
+            hours12 = hours12 % 12 || 12;
+            const formattedTime = `${hours12}:${minutes} ${ampm}`;
+
+            document.getElementById('agendaDate').textContent = formattedDate;
+            document.getElementById('agendaTime').textContent = formattedTime;
+            document.getElementById('agendaFood').textContent = state.food;
+            document.getElementById('agendaActivity').textContent = state.dateType;
+            document.getElementById('agendaRequest').textContent = state.request || 'Surprise me! 🎁';
+        }
+    </script>
+</body>
+</html>
